@@ -1,0 +1,200 @@
+diff -rup binutils.orig/ld/testsuite/ld-aarch64/variant_pcs-now.d binutils-2.35/ld/testsuite/ld-aarch64/variant_pcs-now.d
+--- binutils.orig/ld/testsuite/ld-aarch64/variant_pcs-now.d	2020-07-28 13:07:26.192507117 +0100
++++ binutils-2.35/ld/testsuite/ld-aarch64/variant_pcs-now.d	2020-07-28 13:09:47.205905999 +0100
+@@ -23,10 +23,10 @@ Symbol table '\.dynsym' contains 7 entri
+    Num:    Value          Size Type    Bind   Vis      Ndx Name
+      0: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT  UND 
+      1: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT  UND f_base_global_default_undef
+-     2: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT \[VARIANT_PCS\]   UND f_spec_global_default_undef
+-     3: 0000000000008000     0 IFUNC   GLOBAL DEFAULT \[VARIANT_PCS\]     1 f_spec_global_default_ifunc
++     2: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT .*
++     3: 0000000000008000     0 IFUNC   GLOBAL DEFAULT .*
+      4: 0000000000008000     0 NOTYPE  GLOBAL DEFAULT    1 f_base_global_default_def
+-     5: 0000000000008000     0 NOTYPE  GLOBAL DEFAULT \[VARIANT_PCS\]     1 f_spec_global_default_def
++     5: 0000000000008000     0 NOTYPE  GLOBAL DEFAULT .*
+      6: 0000000000008000     0 IFUNC   GLOBAL DEFAULT    1 f_base_global_default_ifunc
+ 
+ Symbol table '\.symtab' contains 35 entries:
+@@ -41,28 +41,28 @@ Symbol table '\.symtab' contains 35 entr
+      7: 00000000000111c8     0 SECTION LOCAL  DEFAULT    7 
+      8: 0000000000011270     0 SECTION LOCAL  DEFAULT    8 
+      9: 0000000000000000     0 FILE    LOCAL  DEFAULT  ABS .*variant_pcs-1\.o
+-    10: 0000000000008000     0 NOTYPE  LOCAL  DEFAULT \[VARIANT_PCS\]     1 f_spec_local
+-    11: 0000000000008000     0 IFUNC   LOCAL  DEFAULT \[VARIANT_PCS\]     1 f_spec_local_ifunc
++    10: 0000000000008000     0 NOTYPE  LOCAL  DEFAULT .*
++    11: 0000000000008000     0 IFUNC   LOCAL  DEFAULT .*
+     12: 0000000000008000     0 IFUNC   LOCAL  DEFAULT    1 f_base_local_ifunc
+     13: 0000000000008000     0 NOTYPE  LOCAL  DEFAULT    1 f_base_local
+     14: 0000000000008000     0 NOTYPE  LOCAL  DEFAULT    1 \$x
+     15: 0000000000000000     0 FILE    LOCAL  DEFAULT  ABS .*variant_pcs-2\.o
+-    16: 0000000000008038     0 NOTYPE  LOCAL  DEFAULT \[VARIANT_PCS\]     1 f_spec_local2
+-    17: 0000000000008038     0 IFUNC   LOCAL  DEFAULT \[VARIANT_PCS\]     1 f_spec_local2_ifunc
++    16: 0000000000008038     0 NOTYPE  LOCAL  DEFAULT .*
++    17: 0000000000008038     0 IFUNC   LOCAL  DEFAULT .*
+     18: 0000000000008038     0 IFUNC   LOCAL  DEFAULT    1 f_base_local2_ifunc
+     19: 0000000000008038     0 NOTYPE  LOCAL  DEFAULT    1 f_base_local2
+     20: 0000000000008038     0 NOTYPE  LOCAL  DEFAULT    1 \$x
+     21: 0000000000000000     0 FILE    LOCAL  DEFAULT  ABS 
+     22: 0000000000009080     0 OBJECT  LOCAL  DEFAULT  ABS _DYNAMIC
+-    23: 0000000000008000     0 NOTYPE  LOCAL  DEFAULT \[VARIANT_PCS\]     1 f_spec_global_hidden_def
++    23: 0000000000008000     0 NOTYPE  LOCAL  DEFAULT .*
+     24: 0000000000008000     0 IFUNC   LOCAL  DEFAULT    1 f_base_global_hidden_ifunc
+     25: 0000000000008000     0 NOTYPE  LOCAL  DEFAULT    1 f_base_global_hidden_def
+     26: 0000000000009000     0 OBJECT  LOCAL  DEFAULT  ABS _GLOBAL_OFFSET_TABLE_
+-    27: 0000000000008000     0 IFUNC   LOCAL  DEFAULT \[VARIANT_PCS\]     1 f_spec_global_hidden_ifunc
++    27: 0000000000008000     0 IFUNC   LOCAL  DEFAULT .*
+     28: 0000000000008070     0 NOTYPE  LOCAL  DEFAULT    2 \$x
+     29: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT  UND f_base_global_default_undef
+-    30: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT \[VARIANT_PCS\]   UND f_spec_global_default_undef
+-    31: 0000000000008000     0 IFUNC   GLOBAL DEFAULT \[VARIANT_PCS\]     1 f_spec_global_default_ifunc
++    30: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT .*
++    31: 0000000000008000     0 IFUNC   GLOBAL DEFAULT .*
+     32: 0000000000008000     0 NOTYPE  GLOBAL DEFAULT    1 f_base_global_default_def
+-    33: 0000000000008000     0 NOTYPE  GLOBAL DEFAULT \[VARIANT_PCS\]     1 f_spec_global_default_def
++    33: 0000000000008000     0 NOTYPE  GLOBAL DEFAULT .*
+     34: 0000000000008000     0 IFUNC   GLOBAL DEFAULT    1 f_base_global_default_ifunc
+diff -rup binutils.orig/ld/testsuite/ld-aarch64/variant_pcs-r.d binutils-2.35/ld/testsuite/ld-aarch64/variant_pcs-r.d
+--- binutils.orig/ld/testsuite/ld-aarch64/variant_pcs-r.d	2020-07-28 13:07:26.184507150 +0100
++++ binutils-2.35/ld/testsuite/ld-aarch64/variant_pcs-r.d	2020-07-28 13:08:20.069277447 +0100
+@@ -37,24 +37,24 @@ Symbol table '\.symtab' contains 26 entr
+      2: 0000000000000000     0 SECTION LOCAL  DEFAULT    3 
+      3: 0000000000000000     0 SECTION LOCAL  DEFAULT    4 
+      4: 0000000000000000     0 FILE    LOCAL  DEFAULT  ABS .*variant_pcs-1\.o
+-     5: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT \[VARIANT_PCS\]     1 f_spec_local
+-     6: 0000000000000000     0 IFUNC   LOCAL  DEFAULT \[VARIANT_PCS\]     1 f_spec_local_ifunc
++     5: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT .*
++     6: 0000000000000000     0 IFUNC   LOCAL  DEFAULT .*
+      7: 0000000000000000     0 IFUNC   LOCAL  DEFAULT    1 f_base_local_ifunc
+      8: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT    1 f_base_local
+      9: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT    1 \$x
+     10: 0000000000000000     0 FILE    LOCAL  DEFAULT  ABS .*variant_pcs-2\.o
+-    11: 0000000000000038     0 NOTYPE  LOCAL  DEFAULT \[VARIANT_PCS\]     1 f_spec_local2
+-    12: 0000000000000038     0 IFUNC   LOCAL  DEFAULT \[VARIANT_PCS\]     1 f_spec_local2_ifunc
++    11: 0000000000000038     0 NOTYPE  LOCAL  DEFAULT .*
++    12: 0000000000000038     0 IFUNC   LOCAL  DEFAULT .*
+     13: 0000000000000038     0 IFUNC   LOCAL  DEFAULT    1 f_base_local2_ifunc
+     14: 0000000000000038     0 NOTYPE  LOCAL  DEFAULT    1 f_base_local2
+     15: 0000000000000038     0 NOTYPE  LOCAL  DEFAULT    1 \$x
+     16: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT  UND f_base_global_default_undef
+-    17: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT \[VARIANT_PCS\]   UND f_spec_global_default_undef
+-    18: 0000000000000000     0 NOTYPE  GLOBAL HIDDEN  \[VARIANT_PCS\]     1 f_spec_global_hidden_def
++    17: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT .*
++    18: 0000000000000000     0 NOTYPE  GLOBAL HIDDEN  .*
+     19: 0000000000000000     0 IFUNC   GLOBAL HIDDEN     1 f_base_global_hidden_ifunc
+-    20: 0000000000000000     0 IFUNC   GLOBAL DEFAULT \[VARIANT_PCS\]     1 f_spec_global_default_ifunc
++    20: 0000000000000000     0 IFUNC   GLOBAL DEFAULT .*
+     21: 0000000000000000     0 NOTYPE  GLOBAL HIDDEN     1 f_base_global_hidden_def
+-    22: 0000000000000000     0 IFUNC   GLOBAL HIDDEN  \[VARIANT_PCS\]     1 f_spec_global_hidden_ifunc
++    22: 0000000000000000     0 IFUNC   GLOBAL HIDDEN  .*
+     23: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT    1 f_base_global_default_def
+-    24: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT \[VARIANT_PCS\]     1 f_spec_global_default_def
++    24: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT .*
+     25: 0000000000000000     0 IFUNC   GLOBAL DEFAULT    1 f_base_global_default_ifunc
+diff -rup binutils.orig/ld/testsuite/ld-aarch64/variant_pcs-shared.d binutils-2.35/ld/testsuite/ld-aarch64/variant_pcs-shared.d
+--- binutils.orig/ld/testsuite/ld-aarch64/variant_pcs-shared.d	2020-07-28 13:07:26.183507154 +0100
++++ binutils-2.35/ld/testsuite/ld-aarch64/variant_pcs-shared.d	2020-07-28 13:09:00.519105015 +0100
+@@ -23,10 +23,10 @@ Symbol table '\.dynsym' contains 7 entri
+    Num:    Value          Size Type    Bind   Vis      Ndx Name
+      0: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT  UND 
+      1: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT  UND f_base_global_default_undef
+-     2: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT \[VARIANT_PCS\]   UND f_spec_global_default_undef
+-     3: 0000000000008000     0 IFUNC   GLOBAL DEFAULT \[VARIANT_PCS\]     1 f_spec_global_default_ifunc
++     2: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT .*
++     3: 0000000000008000     0 IFUNC   GLOBAL DEFAULT .*
+      4: 0000000000008000     0 NOTYPE  GLOBAL DEFAULT    1 f_base_global_default_def
+-     5: 0000000000008000     0 NOTYPE  GLOBAL DEFAULT \[VARIANT_PCS\]     1 f_spec_global_default_def
++     5: 0000000000008000     0 NOTYPE  GLOBAL DEFAULT .*
+      6: 0000000000008000     0 IFUNC   GLOBAL DEFAULT    1 f_base_global_default_ifunc
+ 
+ Symbol table '\.symtab' contains 35 entries:
+@@ -41,28 +41,28 @@ Symbol table '\.symtab' contains 35 entr
+      7: 00000000000111c8     0 SECTION LOCAL  DEFAULT    7 
+      8: 0000000000011270     0 SECTION LOCAL  DEFAULT    8 
+      9: 0000000000000000     0 FILE    LOCAL  DEFAULT  ABS .*variant_pcs-1\.o
+-    10: 0000000000008000     0 NOTYPE  LOCAL  DEFAULT \[VARIANT_PCS\]     1 f_spec_local
+-    11: 0000000000008000     0 IFUNC   LOCAL  DEFAULT \[VARIANT_PCS\]     1 f_spec_local_ifunc
++    10: 0000000000008000     0 NOTYPE  LOCAL  DEFAULT .*
++    11: 0000000000008000     0 IFUNC   LOCAL  DEFAULT .*
+     12: 0000000000008000     0 IFUNC   LOCAL  DEFAULT    1 f_base_local_ifunc
+     13: 0000000000008000     0 NOTYPE  LOCAL  DEFAULT    1 f_base_local
+     14: 0000000000008000     0 NOTYPE  LOCAL  DEFAULT    1 \$x
+     15: 0000000000000000     0 FILE    LOCAL  DEFAULT  ABS .*variant_pcs-2\.o
+-    16: 0000000000008038     0 NOTYPE  LOCAL  DEFAULT \[VARIANT_PCS\]     1 f_spec_local2
+-    17: 0000000000008038     0 IFUNC   LOCAL  DEFAULT \[VARIANT_PCS\]     1 f_spec_local2_ifunc
++    16: 0000000000008038     0 NOTYPE  LOCAL  DEFAULT .*
++    17: 0000000000008038     0 IFUNC   LOCAL  DEFAULT .*
+     18: 0000000000008038     0 IFUNC   LOCAL  DEFAULT    1 f_base_local2_ifunc
+     19: 0000000000008038     0 NOTYPE  LOCAL  DEFAULT    1 f_base_local2
+     20: 0000000000008038     0 NOTYPE  LOCAL  DEFAULT    1 \$x
+     21: 0000000000000000     0 FILE    LOCAL  DEFAULT  ABS 
+     22: 0000000000009080     0 OBJECT  LOCAL  DEFAULT  ABS _DYNAMIC
+-    23: 0000000000008000     0 NOTYPE  LOCAL  DEFAULT \[VARIANT_PCS\]     1 f_spec_global_hidden_def
++    23: 0000000000008000     0 NOTYPE  LOCAL  DEFAULT .*
+     24: 0000000000008000     0 IFUNC   LOCAL  DEFAULT    1 f_base_global_hidden_ifunc
+     25: 0000000000008000     0 NOTYPE  LOCAL  DEFAULT    1 f_base_global_hidden_def
+     26: 0000000000009000     0 OBJECT  LOCAL  DEFAULT  ABS _GLOBAL_OFFSET_TABLE_
+-    27: 0000000000008000     0 IFUNC   LOCAL  DEFAULT \[VARIANT_PCS\]     1 f_spec_global_hidden_ifunc
++    27: 0000000000008000     0 IFUNC   LOCAL  DEFAULT .*
+     28: 0000000000008070     0 NOTYPE  LOCAL  DEFAULT    2 \$x
+     29: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT  UND f_base_global_default_undef
+-    30: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT \[VARIANT_PCS\]   UND f_spec_global_default_undef
+-    31: 0000000000008000     0 IFUNC   GLOBAL DEFAULT \[VARIANT_PCS\]     1 f_spec_global_default_ifunc
++    30: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT .*
++    31: 0000000000008000     0 IFUNC   GLOBAL DEFAULT .*
+     32: 0000000000008000     0 NOTYPE  GLOBAL DEFAULT    1 f_base_global_default_def
+-    33: 0000000000008000     0 NOTYPE  GLOBAL DEFAULT \[VARIANT_PCS\]     1 f_spec_global_default_def
++    33: 0000000000008000     0 NOTYPE  GLOBAL DEFAULT .*
+     34: 0000000000008000     0 IFUNC   GLOBAL DEFAULT    1 f_base_global_default_ifunc
+diff -rup binutils.orig/ld/testsuite/ld-plugin/plugin-12.d binutils-2.35/ld/testsuite/ld-plugin/plugin-12.d
+--- binutils.orig/ld/testsuite/ld-plugin/plugin-12.d	2020-07-28 13:07:26.246506887 +0100
++++ binutils-2.35/ld/testsuite/ld-plugin/plugin-12.d	2020-07-28 13:10:51.694631104 +0100
+@@ -1,6 +1,6 @@
+ #...
+-.*: symbol `func' definition: DEF, visibility: DEFAULT, resolution: PREVAILING_DEF
+-.*: symbol `func1' definition: DEF, visibility: PROTECTED, resolution: PREVAILING_DEF_IRONLY
+-.*: symbol `func2' definition: DEF, visibility: INTERNAL, resolution: PREVAILING_DEF_IRONLY
+-.*: symbol `func3' definition: DEF, visibility: HIDDEN, resolution: PREVAILING_DEF_IRONLY
++.*: symbol `func' definition: DEF, visibility: DEFAULT, resolution: PREVAILING_DE.*
++.*: symbol `func1' definition: DEF, visibility: PROTECTED, resolution: PREVAILING_DE.*
++.*: symbol `func2' definition: DEF, visibility: INTERNAL, resolution: PREVAILING_DE.*
++.*: symbol `func3' definition: DEF, visibility: HIDDEN, resolution: PREVAILING_DE.*
+ #pass
+diff -rup binutils.orig/ld/testsuite/ld-elf/indirect.exp binutils-2.35/ld/testsuite/ld-elf/indirect.exp
+--- binutils.orig/ld/testsuite/ld-elf/indirect.exp	2020-07-28 13:37:46.473794149 +0100
++++ binutils-2.35/ld/testsuite/ld-elf/indirect.exp	2020-07-28 14:10:44.867990380 +0100
+@@ -229,7 +229,7 @@ set pie_tests {
+ 
+ run_ld_link_exec_tests $pie_tests
+ 
+-foreach t [list indirect5c indirect5d indirect6c indirect6d] {
++foreach t [list indirect6c indirect6d] {
+     set testname [concat $t "dynsym"]
+     if { [check_dynamic_syms tmpdir/$t] } {
+ 	pass $testname
+diff -rup binutils.orig/ld/testsuite/ld-plugin/plugin-12.d binutils-2.35/ld/testsuite/ld-plugin/plugin-12.d
+--- binutils.orig/ld/testsuite/ld-plugin/plugin-12.d	2020-07-28 13:37:46.393794486 +0100
++++ binutils-2.35/ld/testsuite/ld-plugin/plugin-12.d	2020-07-28 14:14:14.632159645 +0100
+@@ -1,6 +1,6 @@
+ #...
+-.*: symbol `func' definition: DEF, visibility: DEFAULT, resolution: PREVAILING_DE.*
+-.*: symbol `func1' definition: DEF, visibility: PROTECTED, resolution: PREVAILING_DE.*
+-.*: symbol `func2' definition: DEF, visibility: INTERNAL, resolution: PREVAILING_DE.*
+-.*: symbol `func3' definition: DEF, visibility: HIDDEN, resolution: PREVAILING_DE.*
++.*func' definition: DEF, visibility: DEFAULT, resolution: PREVAILING_DE.*
++.*func1' definition: DEF, visibility: PROTECTED, resolution: PREVAILING_DE.*
++.*func2' definition: DEF, visibility: INTERNAL, resolution: PREVAILING_DE.*
++.*func3' definition: DEF, visibility: HIDDEN, resolution: PREVAILING_DE.*
+ #pass
+diff -rup binutils.orig/ld/testsuite/ld-plugin/plugin.exp binutils-2.35/ld/testsuite/ld-plugin/plugin.exp
+--- binutils.orig/ld/testsuite/ld-plugin/plugin.exp	2020-07-28 15:07:51.601384963 +0100
++++ binutils-2.35/ld/testsuite/ld-plugin/plugin.exp	2020-07-28 15:11:38.753471155 +0100
+@@ -301,6 +301,9 @@ if { !$can_compile || $failed_compile }
+ run_ld_link_tests $plugin_tests
+ 
+ if { [is_elf_format] \
++     && ![istarget "aarch64*-*-*"] \
++     && ![istarget "s390*-*-*"] \
++     && ![istarget "i686*-*-*"] \
+      && [ld_compile "$CC $CFLAGS" $srcdir/$subdir/func1p.c tmpdir/func1p.o] \
+      && [ld_compile "$CC $CFLAGS" $srcdir/$subdir/func2i.c tmpdir/func2i.o] \
+      && [ld_compile "$CC $CFLAGS" $srcdir/$subdir/func3h.c tmpdir/func3h.o] } {

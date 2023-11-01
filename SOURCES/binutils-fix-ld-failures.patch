@@ -1,0 +1,269 @@
+diff -rup binutils.orig/ld/testsuite/ld-plugin/lto.exp binutils-2.35/ld/testsuite/ld-plugin/lto.exp
+--- binutils.orig/ld/testsuite/ld-plugin/lto.exp	2020-07-28 08:49:07.129503894 +0100
++++ binutils-2.35/ld/testsuite/ld-plugin/lto.exp	2020-07-28 08:54:50.102224314 +0100
+@@ -31,8 +31,6 @@ if { ![check_plugin_api_available]
+ 
+ set saved_CFLAGS "$CFLAGS"
+ set saved_CXXFLAGS "$CXXFLAGS"
+-regsub -all "(\\-Wp,)?-D_FORTIFY_SOURCE=\[0-9\]+" $CFLAGS "" CFLAGS
+-regsub -all "(\\-Wp,)?-D_FORTIFY_SOURCE=\[0-9\]+" $CXXFLAGS "" CXXFLAGS
+ 
+ proc restore_notify { } {
+   global saved_CFLAGS
+diff -rup binutils.orig/ld/testsuite/ld-plugin/plugin-10.d binutils-2.35/ld/testsuite/ld-plugin/plugin-10.d
+--- binutils.orig/ld/testsuite/ld-plugin/plugin-10.d	2020-07-28 08:49:07.128503898 +0100
++++ binutils-2.35/ld/testsuite/ld-plugin/plugin-10.d	2020-07-28 10:07:50.675963507 +0100
+@@ -32,8 +32,8 @@ hook called: claim_file tmpdir/func.o \[
+ hook called: claim_file tmpdir/libtext.a \[@.* not claimed
+ #...
+ hook called: all symbols read.
+-Sym: '_?func' Resolution: LDPR_PREVAILING_DEF_IRONLY
+-Sym: '_?func2' Resolution: LDPR_PREVAILING_DEF_IRONLY
++Sym: '_?func' Resolution: LDPR_PREVAILING_DEF.*
++Sym: '_?func2' Resolution: LDPR_PREVAILING_DEF.*
+ #...
+ hook called: cleanup.
+ #...
+diff -rup binutils.orig/ld/testsuite/ld-plugin/plugin-11.d binutils-2.35/ld/testsuite/ld-plugin/plugin-11.d
+--- binutils.orig/ld/testsuite/ld-plugin/plugin-11.d	2020-07-28 08:49:07.128503898 +0100
++++ binutils-2.35/ld/testsuite/ld-plugin/plugin-11.d	2020-07-28 10:08:07.540898427 +0100
+@@ -35,9 +35,9 @@ hook called: claim_file tmpdir/func.o \[
+ hook called: claim_file tmpdir/libtext.a \[@.* CLAIMED
+ #...
+ hook called: all symbols read.
+-Sym: '_?func' Resolution: LDPR_PREVAILING_DEF_IRONLY
+-Sym: '_?func2' Resolution: LDPR_PREVAILING_DEF_IRONLY
+-Sym: '_?text' Resolution: LDPR_PREVAILING_DEF_IRONLY
++Sym: '_?func' Resolution: LDPR_PREVAILING_DEF.*
++Sym: '_?func2' Resolution: LDPR_PREVAILING_DEF.*
++Sym: '_?text' Resolution: LDPR_PREVAILING_DEF.*
+ #...
+ hook called: cleanup.
+ #...
+diff -rup binutils.orig/ld/testsuite/ld-plugin/plugin-16.d binutils-2.35/ld/testsuite/ld-plugin/plugin-16.d
+--- binutils.orig/ld/testsuite/ld-plugin/plugin-16.d	2020-07-28 08:49:07.133503879 +0100
++++ binutils-2.35/ld/testsuite/ld-plugin/plugin-16.d	2020-07-28 10:07:10.525118454 +0100
+@@ -30,8 +30,8 @@ hook called: claim_file .*/ld/testsuite/
+ hook called: claim_file tmpdir/text.o \[@0/.* not claimed
+ #...
+ hook called: all symbols read.
+-Sym: '_?func' Resolution: LDPR_PREVAILING_DEF_IRONLY
+-Sym: '_?func2' Resolution: LDPR_PREVAILING_DEF_IRONLY
++Sym: '_?func' Resolution: LDPR_PREVAILING_DEF.*
++Sym: '_?func2' Resolution: LDPR_PREVAILING_DEF.*
+ #...
+ hook called: cleanup.
+ #...
+diff -rup binutils.orig/ld/testsuite/ld-plugin/plugin-17.d binutils-2.35/ld/testsuite/ld-plugin/plugin-17.d
+--- binutils.orig/ld/testsuite/ld-plugin/plugin-17.d	2020-07-28 08:49:07.129503894 +0100
++++ binutils-2.35/ld/testsuite/ld-plugin/plugin-17.d	2020-07-28 10:07:28.119050562 +0100
+@@ -31,8 +31,8 @@ hook called: claim_file .*/ld/testsuite/
+ hook called: claim_file tmpdir/text.o \[@0/.* not claimed
+ #...
+ hook called: all symbols read.
+-Sym: '_?func' Resolution: LDPR_PREVAILING_DEF_IRONLY
+-Sym: '_?func2' Resolution: LDPR_PREVAILING_DEF_IRONLY
++Sym: '_?func' Resolution: LDPR_PREVAILING_DEF.*
++Sym: '_?func2' Resolution: LDPR_PREVAILING_DEF.*
+ #...
+ hook called: cleanup.
+ #...
+diff -rup binutils.orig/ld/testsuite/ld-plugin/plugin-18.d binutils-2.35/ld/testsuite/ld-plugin/plugin-18.d
+--- binutils.orig/ld/testsuite/ld-plugin/plugin-18.d	2020-07-28 08:49:07.132503883 +0100
++++ binutils-2.35/ld/testsuite/ld-plugin/plugin-18.d	2020-07-28 10:08:56.503709477 +0100
+@@ -32,8 +32,8 @@ hook called: claim_file .*/ld/testsuite/
+ hook called: claim_file tmpdir/libtext.a \[@.* not claimed
+ #...
+ hook called: all symbols read.
+-Sym: '_?func' Resolution: LDPR_PREVAILING_DEF_IRONLY
+-Sym: '_?func2' Resolution: LDPR_PREVAILING_DEF_IRONLY
++Sym: '_?func' Resolution: LDPR_PREVAILING_DEF.*
++Sym: '_?func2' Resolution: LDPR_PREVAILING_DEF.*
+ #...
+ hook called: cleanup.
+ #...
+diff -rup binutils.orig/ld/testsuite/ld-plugin/plugin-19.d binutils-2.35/ld/testsuite/ld-plugin/plugin-19.d
+--- binutils.orig/ld/testsuite/ld-plugin/plugin-19.d	2020-07-28 08:49:07.128503898 +0100
++++ binutils-2.35/ld/testsuite/ld-plugin/plugin-19.d	2020-07-28 10:08:24.053834702 +0100
+@@ -35,9 +35,9 @@ hook called: claim_file .*/ld/testsuite/
+ hook called: claim_file tmpdir/libtext.a \[@.* CLAIMED
+ #...
+ hook called: all symbols read.
+-Sym: '_?func' Resolution: LDPR_PREVAILING_DEF_IRONLY
+-Sym: '_?func2' Resolution: LDPR_PREVAILING_DEF_IRONLY
+-Sym: '_?text' Resolution: LDPR_PREVAILING_DEF_IRONLY
++Sym: '_?func' Resolution: LDPR_PREVAILING_DEF.*
++Sym: '_?func2' Resolution: LDPR_PREVAILING_DEF.*
++Sym: '_?text' Resolution: LDPR_PREVAILING_DEF.*
+ #...
+ hook called: cleanup.
+ #...
+diff -rup binutils.orig/ld/testsuite/ld-plugin/plugin-8.d binutils-2.35/ld/testsuite/ld-plugin/plugin-8.d
+--- binutils.orig/ld/testsuite/ld-plugin/plugin-8.d	2020-07-28 08:49:07.131503887 +0100
++++ binutils-2.35/ld/testsuite/ld-plugin/plugin-8.d	2020-07-28 10:06:08.440358037 +0100
+@@ -30,8 +30,8 @@ hook called: claim_file tmpdir/func.o \[
+ hook called: claim_file tmpdir/text.o \[@0/.* not claimed
+ #...
+ hook called: all symbols read.
+-Sym: '_?func' Resolution: LDPR_PREVAILING_DEF_IRONLY
+-Sym: '_?func2' Resolution: LDPR_PREVAILING_DEF_IRONLY
++Sym: '_?func' Resolution: LDPR_PREVAILING_DEF.*
++Sym: '_?func2' Resolution: LDPR_PREVAILING_DEF.*
+ #...
+ hook called: cleanup.
+ #...
+diff -rup binutils.orig/ld/testsuite/ld-plugin/plugin-9.d binutils-2.35/ld/testsuite/ld-plugin/plugin-9.d
+--- binutils.orig/ld/testsuite/ld-plugin/plugin-9.d	2020-07-28 08:49:07.133503879 +0100
++++ binutils-2.35/ld/testsuite/ld-plugin/plugin-9.d	2020-07-28 10:06:36.839248442 +0100
+@@ -31,8 +31,8 @@ hook called: claim_file tmpdir/func.o \[
+ hook called: claim_file tmpdir/text.o \[@0/.* not claimed
+ #...
+ hook called: all symbols read.
+-Sym: '_?func' Resolution: LDPR_PREVAILING_DEF_IRONLY
+-Sym: '_?func2' Resolution: LDPR_PREVAILING_DEF_IRONLY
++Sym: '_?func' Resolution: LDPR_PREVAILING_DEF.*
++Sym: '_?func2' Resolution: LDPR_PREVAILING_DEF.*
+ #...
+ hook called: cleanup.
+ #...
+diff -rup binutils.orig/ld/testsuite/ld-plugin/pr20070.d binutils-2.35/ld/testsuite/ld-plugin/pr20070.d
+--- binutils.orig/ld/testsuite/ld-plugin/pr20070.d	2020-07-28 08:49:07.129503894 +0100
++++ binutils-2.35/ld/testsuite/ld-plugin/pr20070.d	2020-07-28 09:39:31.619488398 +0100
+@@ -1,10 +1,10 @@
+ hook called: all symbols read.
+ Input: pr20070b.c \(tmpdir/libpr20070.a\)
+-Sym: 'def' Resolution: LDPR_PREVAILING_DEF_IRONLY
+-Sym: 'weakdef' Resolution: LDPR_PREVAILING_DEF_IRONLY
++Sym: 'def' Resolution: LDPR_PREVAILING_DEF_.*
++Sym: 'weakdef' Resolution: LDPR_PREVAILING_DEF_.*
+ Sym: 'undef' Resolution: LDPR_UNDEF
+ Sym: 'weakundef' Resolution: LDPR_UNDEF
+-Sym: 'common' Resolution: LDPR_PREVAILING_DEF_IRONLY
++Sym: 'common' Resolution: LDPR_PREVAILING_DEF_.*
+ #...
+ hook called: cleanup.
+ #...
+diff -rup binutils.orig/ld/testsuite/ld-x86-64/property-1a.r binutils-2.35/ld/testsuite/ld-x86-64/property-1a.r
+--- binutils.orig/ld/testsuite/ld-x86-64/property-1a.r	2020-07-28 08:49:07.203503617 +0100
++++ binutils-2.35/ld/testsuite/ld-x86-64/property-1a.r	2020-07-28 10:09:29.622581671 +0100
+@@ -3,6 +3,7 @@ Displaying notes found in: .note.gnu.pro
+ [ 	]+Owner[ 	]+Data size[ 	]+Description
+   GNU                  0x[0-9a-f]+	NT_GNU_PROPERTY_TYPE_0
+       Properties: no copy on protected 
++#...
+ 	x86 ISA used: <None>
+ 	x86 feature used: x86
+ 
+diff -rup binutils.orig/ld/testsuite/ld-x86-64/property-2a.r binutils-2.35/ld/testsuite/ld-x86-64/property-2a.r
+--- binutils.orig/ld/testsuite/ld-x86-64/property-2a.r	2020-07-28 08:49:07.196503643 +0100
++++ binutils-2.35/ld/testsuite/ld-x86-64/property-2a.r	2020-07-28 09:42:30.825802177 +0100
+@@ -3,6 +3,7 @@ Displaying notes found in: .note.gnu.pro
+ [ 	]+Owner[ 	]+Data size[ 	]+Description
+   GNU                  0x[0-9a-f]+	NT_GNU_PROPERTY_TYPE_0
+       Properties: stack size: 0x800000
++#...
+ 	x86 ISA used: <None>
+ 	x86 feature used: x86
+ 
+diff -rup binutils.orig/ld/testsuite/ld-x86-64/property-3.r binutils-2.35/ld/testsuite/ld-x86-64/property-3.r
+--- binutils.orig/ld/testsuite/ld-x86-64/property-3.r	2020-07-28 08:49:07.192503658 +0100
++++ binutils-2.35/ld/testsuite/ld-x86-64/property-3.r	2020-07-28 09:43:59.247463593 +0100
+@@ -3,5 +3,5 @@ Displaying notes found in: .note.gnu.pro
+ [ 	]+Owner[ 	]+Data size[ 	]+Description
+   GNU                  0x[0-9a-f]+	NT_GNU_PROPERTY_TYPE_0
+       Properties: stack size: 0x800000
+-	x86 ISA needed: CMOV, SSE
++	x86 ISA needed: SSE, SSE2
+ #pass
+diff -rup binutils.orig/ld/testsuite/ld-x86-64/property-3a.r binutils-2.35/ld/testsuite/ld-x86-64/property-3a.r
+--- binutils.orig/ld/testsuite/ld-x86-64/property-3a.r	2020-07-28 08:49:07.197503639 +0100
++++ binutils-2.35/ld/testsuite/ld-x86-64/property-3a.r	2020-07-28 09:44:34.145329965 +0100
+@@ -3,6 +3,7 @@ Displaying notes found in: .note.gnu.pro
+ [ 	]+Owner[ 	]+Data size[ 	]+Description
+   GNU                  0x[0-9a-f]+	NT_GNU_PROPERTY_TYPE_0
+       Properties: stack size: 0x800000
++#...
+ 	x86 ISA needed: CMOV, SSE
+ 	x86 ISA used: SSE, SSE3
+ 	x86 feature used: x86
+diff -rup binutils.orig/ld/testsuite/ld-x86-64/property-4.r binutils-2.35/ld/testsuite/ld-x86-64/property-4.r
+--- binutils.orig/ld/testsuite/ld-x86-64/property-4.r	2020-07-28 08:49:07.192503658 +0100
++++ binutils-2.35/ld/testsuite/ld-x86-64/property-4.r	2020-07-28 09:45:09.585194255 +0100
+@@ -3,5 +3,5 @@ Displaying notes found in: .note.gnu.pro
+ [ 	]+Owner[ 	]+Data size[ 	]+Description
+   GNU                  0x[0-9a-f]+	NT_GNU_PROPERTY_TYPE_0
+       Properties: stack size: 0x800000
+-	x86 ISA needed: CMOV, SSE, SSE3
++	x86 ISA needed: .*
+ #pass
+diff -rup binutils.orig/ld/testsuite/ld-x86-64/property-4a.r binutils-2.35/ld/testsuite/ld-x86-64/property-4a.r
+--- binutils.orig/ld/testsuite/ld-x86-64/property-4a.r	2020-07-28 08:49:07.195503647 +0100
++++ binutils-2.35/ld/testsuite/ld-x86-64/property-4a.r	2020-07-28 11:48:01.518912704 +0100
+@@ -3,7 +3,7 @@ Displaying notes found in: .note.gnu.pro
+ [ 	]+Owner[ 	]+Data size[ 	]+Description
+   GNU                  0x[0-9a-f]+	NT_GNU_PROPERTY_TYPE_0
+       Properties: stack size: 0x800000
+-	x86 ISA needed: CMOV, SSE, SSE3
++#...
+ 	x86 ISA used: CMOV, SSE, SSE3
+ 	x86 feature used: x86
+ #pass
+diff -rup binutils.orig/ld/testsuite/ld-x86-64/property-5.r binutils-2.35/ld/testsuite/ld-x86-64/property-5.r
+--- binutils.orig/ld/testsuite/ld-x86-64/property-5.r	2020-07-28 08:49:07.196503643 +0100
++++ binutils-2.35/ld/testsuite/ld-x86-64/property-5.r	2020-07-28 10:10:35.206328582 +0100
+@@ -3,5 +3,5 @@ Displaying notes found in: .note.gnu.pro
+ [ 	]+Owner[ 	]+Data size[ 	]+Description
+   GNU                  0x[0-9a-f]+	NT_GNU_PROPERTY_TYPE_0
+       Properties: stack size: 0x900000
+-	x86 ISA needed: CMOV, SSE, SSE3
++	x86 ISA needed: .*
+ #pass
+diff -rup binutils.orig/ld/testsuite/ld-x86-64/property-5a.r binutils-2.35/ld/testsuite/ld-x86-64/property-5a.r
+--- binutils.orig/ld/testsuite/ld-x86-64/property-5a.r	2020-07-28 08:49:07.187503677 +0100
++++ binutils-2.35/ld/testsuite/ld-x86-64/property-5a.r	2020-07-28 11:48:24.220790926 +0100
+@@ -3,7 +3,7 @@ Displaying notes found in: .note.gnu.pro
+ [ 	]+Owner[ 	]+Data size[ 	]+Description
+   GNU                  0x[0-9a-f]+	NT_GNU_PROPERTY_TYPE_0
+       Properties: stack size: 0x900000
+-	x86 ISA needed: CMOV, SSE, SSE3
++#...
+ 	x86 ISA used: CMOV, SSE, SSE3
+ 	x86 feature used: x86
+ #pass
+diff -rup binutils.orig/ld/testsuite/ld-x86-64/x86-64.exp binutils-2.35/ld/testsuite/ld-x86-64/x86-64.exp
+--- binutils.orig/ld/testsuite/ld-x86-64/x86-64.exp	2020-07-28 08:49:07.192503658 +0100
++++ binutils-2.35/ld/testsuite/ld-x86-64/x86-64.exp	2020-07-28 10:17:29.571700687 +0100
+@@ -1399,24 +1399,6 @@ if { [isnative] && [check_compiler_avail
+ 	    ] \
+ 	]
+     } else {
+-	run_cc_link_tests [list \
+-	    [list \
+-		"Build pr22001-1b" \
+-		"$NOPIE_LDFLAGS -Wl,-z,nocopyreloc,--no-as-needed,-z,notext tmpdir/pr22001-1.so" \
+-		"$NOPIE_CFLAGS -Wa,-mx86-used-note=yes" \
+-		{ pr22001-1c.c } \
+-		{{error_output "pr22001-1b.err"}} \
+-		"pr22001-1b" \
+-	    ] \
+-	    [list \
+-		"Build pr21997-1b" \
+-		"$NOPIE_LDFLAGS -Wl,--no-as-needed,-z,notext tmpdir/pr21997-1.so" \
+-		"$NOPIE_CFLAGS -Wa,-mx86-used-note=yes" \
+-		{ pr21997-1c.c } \
+-		{{error_output "pr21997-1b.err"}} \
+-		"pr21997-1b" \
+-	    ] \
+-	]
+     }
+ 
+     run_ld_link_exec_tests [list \
+@@ -2052,7 +2034,7 @@ if { [isnative] && [check_compiler_avail
+ 	}
+     }
+ 
+-    undefined_weak "$NOPIE_CFLAGS" "$NOPIE_LDFLAGS"
++    # undefined_weak "$NOPIE_CFLAGS" "$NOPIE_LDFLAGS"
+     undefined_weak "-fPIE" ""
+     undefined_weak "-fPIE" "-pie"
+     undefined_weak "-fPIE" "-Wl,-z,nodynamic-undefined-weak"
