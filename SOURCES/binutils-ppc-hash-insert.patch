@@ -1,0 +1,107 @@
+diff -rup binutils.orig/gas/config/tc-ppc.c binutils-2.35/gas/config/tc-ppc.c
+--- binutils.orig/gas/config/tc-ppc.c	2022-02-03 11:10:42.835719394 +0000
++++ binutils-2.35/gas/config/tc-ppc.c	2022-02-03 11:13:04.298724661 +0000
+@@ -1738,12 +1738,12 @@ ppc_setup_opcodes (void)
+ 
+       if ((ppc_cpu & op->flags) != 0
+ 	  && !(ppc_cpu & op->deprecated))
+-	str_hash_insert (ppc_hash, op->name, (void *) op);
++	str_hash_insert_or_replace (ppc_hash, op->name, (void *) op, 0);
+     }
+ 
+   if ((ppc_cpu & PPC_OPCODE_ANY) != 0)
+     for (op = powerpc_opcodes; op < op_end; op++)
+-      str_hash_insert (ppc_hash, op->name, (void *) op);
++      str_hash_insert_or_replace (ppc_hash, op->name, (void *) op, 0);
+ 
+   op_end = prefix_opcodes + prefix_num_opcodes;
+   for (op = prefix_opcodes; op < op_end; op++)
+@@ -1772,12 +1772,12 @@ ppc_setup_opcodes (void)
+ 
+       if ((ppc_cpu & op->flags) != 0
+ 	  && !(ppc_cpu & op->deprecated))
+-	str_hash_insert (ppc_hash, op->name, (void *) op);
++	str_hash_insert_or_replace (ppc_hash, op->name, (void *) op, 0);
+     }
+ 
+   if ((ppc_cpu & PPC_OPCODE_ANY) != 0)
+     for (op = prefix_opcodes; op < op_end; op++)
+-      str_hash_insert (ppc_hash, op->name, (void *) op);
++      str_hash_insert_or_replace (ppc_hash, op->name, (void *) op, 0);
+ 
+   op_end = vle_opcodes + vle_num_opcodes;
+   for (op = vle_opcodes; op < op_end; op++)
+@@ -1807,7 +1807,7 @@ ppc_setup_opcodes (void)
+ 
+       if ((ppc_cpu & op->flags) != 0
+ 	  && !(ppc_cpu & op->deprecated))
+-	str_hash_insert (ppc_hash, op->name, (void *) op);
++	str_hash_insert_or_replace (ppc_hash, op->name, (void *) op, 0);
+     }
+ 
+   /* SPE2 instructions */
+@@ -1841,11 +1841,11 @@ ppc_setup_opcodes (void)
+ 	    }
+ 
+ 	  if ((ppc_cpu & op->flags) != 0 && !(ppc_cpu & op->deprecated))
+-	    str_hash_insert (ppc_hash, op->name, (void *) op);
++	    str_hash_insert_or_replace (ppc_hash, op->name, (void *) op, 0);
+ 	}
+ 
+       for (op = spe2_opcodes; op < op_end; op++)
+-	str_hash_insert (ppc_hash, op->name, (void *) op);
++	str_hash_insert_or_replace (ppc_hash, op->name, (void *) op, 0);
+     }
+ 
+   /* Insert the macros into a hash table.  */
+diff -rup binutils.orig/gas/hash.c binutils-2.35/gas/hash.c
+--- binutils.orig/gas/hash.c	2022-02-03 11:10:42.827719448 +0000
++++ binutils-2.35/gas/hash.c	2022-02-03 11:12:00.506175797 +0000
+@@ -32,6 +32,24 @@ htab_insert (htab_t htab, PTR element)
+   *slot = element;
+ }
+ 
++void **
++htab_insert_or_replace (htab_t htab, void *element, int replace)
++{
++  void **slot = htab_find_slot (htab, element, INSERT);
++  if (*slot != NULL)
++    {
++      if (replace)
++	{
++	  if (htab->del_f)
++	    (*htab->del_f) (*slot);
++	  *slot = element;
++	}
++      return slot;
++    }
++  *slot = element;
++  return NULL;
++}
++
+ /* Print statistics about a hash table.  */
+ 
+ void
+diff -rup binutils.orig/gas/hash.h binutils-2.35/gas/hash.h
+--- binutils.orig/gas/hash.h	2022-02-03 11:10:42.830719428 +0000
++++ binutils-2.35/gas/hash.h	2022-02-03 11:12:25.002002561 +0000
+@@ -103,6 +103,19 @@ str_hash_insert (htab_t table, const cha
+   htab_insert (table, string_tuple_alloc (key, value));
+ }
+ 
++extern void ** htab_insert_or_replace (htab_t, void *, int);
++
++static inline void **
++str_hash_insert_or_replace (htab_t table, const char *key, void *value, int replace)
++{
++  string_tuple_t *elt = string_tuple_alloc (key, value);
++  void **slot = htab_insert_or_replace (table, elt, replace);
++  if (slot && !replace)
++    free (elt);
++  return slot;
++}
++
++
+ static inline htab_t
+ str_htab_create (void)
+ {

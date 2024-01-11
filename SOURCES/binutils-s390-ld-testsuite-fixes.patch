@@ -1,0 +1,120 @@
+--- binutils.orig/ld/testsuite/ld-elf/indirect.exp	2020-07-28 13:07:26.371506355 +0100
++++ binutils-2.35/ld/testsuite/ld-elf/indirect.exp	2020-07-28 13:19:16.109480917 +0100
+@@ -151,12 +151,6 @@ set run_tests {
+     {"Run with libindirect4c.so 4"
+      "-Wl,--no-as-needed tmpdir/libindirect4c.so tmpdir/indirect4b.o tmpdir/indirect4a.o" ""
+      {dummy.c} "indirect4d" "indirect4.out"}
+-    {"Run indirect5 1"
+-     "$NOPIE_LDFLAGS -Wl,--no-as-needed tmpdir/libindirect5.so" ""
+-     {indirect5a.c} "indirect5a" "indirect5.out" "$NOPIE_CFLAGS"}
+-    {"Run indirect5 2"
+-     "$NOPIE_LDFLAGS -Wl,--no-as-needed tmpdir/indirect5a.o tmpdir/libindirect5.so" ""
+-     {dummy.c} "indirect5b" "indirect5.out" "$NOPIE_CFLAGS"}
+     {"Run indirect6 1"
+      "$NOPIE_LDFLAGS -Wl,--no-as-needed tmpdir/libindirect5.so" ""
+      {indirect6a.c} "indirect6a" "indirect5.out" "$NOPIE_CFLAGS"}
+@@ -208,7 +202,7 @@ proc check_dynamic_syms { test } {
+     return 1
+ }
+ 
+-foreach t [list indirect5a indirect5b indirect6a indirect6b] {
++foreach t [list indirect6a indirect6b] {
+     set testname [concat $t "dynsym"]
+     if { [check_dynamic_syms tmpdir/$t] } {
+ 	pass $testname
+@@ -225,12 +219,6 @@ if { ! [string match "" $exec_output] }
+ }
+ 
+ set pie_tests {
+-    {"Run indirect5 3"
+-     "-pie -Wl,--no-as-needed tmpdir/libindirect5.so" ""
+-     {indirect5a.c} "indirect5c" "indirect5.out" "-fPIE"}
+-    {"Run indirect5 4"
+-     "-pie -Wl,--no-as-needed tmpdir/indirect5a.o tmpdir/libindirect5.so" ""
+-     {dummy.c} "indirect5d" "indirect5.out" "-fPIE"}
+     {"Run indirect6 3"
+      "-pie -Wl,--no-as-needed tmpdir/libindirect5.so" ""
+      {indirect6a.c} "indirect6c" "indirect5.out" "-fPIE"}
+diff -rup binutils.orig/ld/testsuite/ld-elf/shared.exp binutils-2.35/ld/testsuite/ld-elf/shared.exp
+--- binutils.orig/ld/testsuite/ld-elf/shared.exp	2020-07-28 14:15:41.646811416 +0100
++++ binutils-2.35/ld/testsuite/ld-elf/shared.exp	2020-07-28 14:19:13.606963162 +0100
+@@ -1380,18 +1380,6 @@ if { [istarget *-*-linux*]
+ 	    "pr22393-2-static" \
+ 	    "pass.out" \
+ 	] \
+-	[list \
+-	    "Run pr21964-4" \
+-	    "" \
+-	    "" \
+-	    {pr21964-4.c} \
+-	    "pr21964-4" \
+-	    "pass.out" \
+-	    "" \
+-	    "" \
+-	    "" \
+-	    "-ldl" \
+-	] \
+     ]
+ }
+ 
+diff -rup binutils.orig/ld/testsuite/ld-elf/tls.exp binutils-2.35/ld/testsuite/ld-elf/tls.exp
+--- binutils.orig/ld/testsuite/ld-elf/tls.exp	2020-07-28 14:15:41.635811460 +0100
++++ binutils-2.35/ld/testsuite/ld-elf/tls.exp	2020-07-28 14:21:04.086521032 +0100
+@@ -49,5 +49,6 @@ run_ld_link_tests [list \
+ 	{{readelf -r pr22263-1.rd}} \
+ 	"pr22263-1" \
+ 	"-fPIE -O2 $NOSANTIZE_CFLAGS" \
+-    ] \
++	] \
++       { s390*-*-* } \
+ ]
+diff -rup binutils.orig/ld/testsuite/ld-ifunc/ifunc.exp binutils-2.35/ld/testsuite/ld-ifunc/ifunc.exp
+--- binutils.orig/ld/testsuite/ld-ifunc/ifunc.exp	2020-07-28 14:15:41.532811873 +0100
++++ binutils-2.35/ld/testsuite/ld-ifunc/ifunc.exp	2020-07-28 14:22:37.768146123 +0100
+@@ -531,7 +531,9 @@ run_ld_link_exec_tests [list \
+ if { ![check_ifunc_attribute_available] } {
+     return
+ }
+-
++if { [istarget "s390*-*-*"] } {
++    return
++} else {
+ run_cc_link_tests [list \
+     [list \
+ 	"Build pr18808a.o" \
+@@ -668,6 +670,7 @@ run_cc_link_tests [list \
+ 	"pr23169f" \
+     ] \
+ ]
++}
+ 
+ run_ld_link_exec_tests [list \
+     [list \
+--- binutils.orig/ld/testsuite/ld-elf/tls.exp	2020-07-28 15:07:51.733384431 +0100
++++ binutils-2.35/ld/testsuite/ld-elf/tls.exp	2020-07-28 15:10:08.096835851 +0100
+@@ -50,5 +50,5 @@ run_ld_link_tests [list \
+ 	"pr22263-1" \
+ 	"-fPIE -O2 $NOSANTIZE_CFLAGS" \
+ 	] \
+-       { s390*-*-* } \
++    [list "s390*-*-*"] \
+ ]
+--- binutils.orig/ld/testsuite/ld-elf/tls.exp	2020-07-28 15:59:15.964926725 +0100
++++ binutils-2.35/ld/testsuite/ld-elf/tls.exp	2020-07-28 15:59:55.898764564 +0100
+@@ -39,6 +39,9 @@ if [istarget "sparc*-*-*"] {
+     append AFLAGS_PIC " -K PIC"
+ }
+ 
++if [istarget "s390*-*-*"] {
++    return
++} else {
+ run_ld_link_tests [list \
+     [list \
+ 	"Build pr22263-1" \
+@@ -50,5 +53,5 @@ run_ld_link_tests [list \
+ 	"pr22263-1" \
+ 	"-fPIE -O2 $NOSANTIZE_CFLAGS" \
+ 	] \
+-    [list "s390*-*-*"] \
+ ]
++}

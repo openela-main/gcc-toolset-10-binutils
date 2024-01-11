@@ -1,0 +1,29 @@
+diff -rup binutils.orig/ld/testsuite/ld-elfvsb/elfvsb.exp binutils-2.35/ld/testsuite/ld-elfvsb/elfvsb.exp
+--- binutils.orig/ld/testsuite/ld-elfvsb/elfvsb.exp	2020-07-28 13:07:26.277506755 +0100
++++ binutils-2.35/ld/testsuite/ld-elfvsb/elfvsb.exp	2020-07-28 13:29:32.252877646 +0100
+@@ -264,6 +264,7 @@ proc visibility_run {visibility} {
+     remote_file host delete $tmpdir/sh1p.o $tmpdir/sh2p.o $tmpdir/sh1np.o $tmpdir/sh2np.o
+ 
+     if { [istarget powerpc*-*-linux*] \
++         || [istarget i686*-*-*] \
+ 	 || ( [istarget mips*-*-linux*] && [at_least_gcc_version 4 3] )} {
+ 	# Testing non-PIC libraries is a waste of effort on any target.
+ 	# If you don't pass -fpic or -fPIC to gcc, gcc will assume quite
+@@ -345,6 +346,7 @@ proc visibility_run {visibility} {
+ 		 || [ string match $visibility "protected_undef_def" ]
+ 		 || [ string match $visibility "protected_weak" ]
+ 		 || [ string match $visibility "normal" ] } {
++		setup_xfail "i686-*-*"
+ 		setup_xfail "powerpc-*-linux*"
+ 		setup_xfail "s390x-*-linux*"
+ 		if { [istarget sparc*-*-linux*] && [is_elf64 $tmpdir/mainnp.o] } {
+@@ -393,7 +395,8 @@ proc visibility_run {visibility} {
+ 	}
+     }}
+ 
+-    if { [istarget powerpc*-*-linux*] } {
++    if { [istarget powerpc*-*-linux*]
++	 || [istarget i686*-*-*] } {
+ 	# Don't bother.
+     } else {
+     # Now do the same tests again, but this time compile main.c PIC.
